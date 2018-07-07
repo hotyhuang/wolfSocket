@@ -1,0 +1,24 @@
+{
+  "name": "wolfsocket",
+  "version": "1.0.0",
+  "description": "This is the socket server for wechat game: wolverine",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hotyhuang/wolfSocket.git"
+  },
+  "author": "hotyhuang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hotyhuang/wolfSocket/issues"
+  },
+  "homepage": "https://github.com/hotyhuang/wolfSocket#readme",
+  "devDependencies": {
+    "express": "^4.16.3",
+    "socket.io": "^2.1.1"
+  }
+}

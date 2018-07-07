@@ -1,0 +1,22 @@
+<!doctype html>  
+<html lang="en">  
+    <head>
+
+    </head>
+    <body>
+        <h1>Yoyo dude!</h1>
+        <div id="future"></div>
+        <form id="form" id="chat_form">
+            <input id="chat_input" type="text">
+            <input type="submit" value="Send">
+        </form>
+         <script src="/jquery/dist/jquery.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>  
+         var socket = io.connect();
+         socket.on('connect', function(data) {
+            socket.emit('join', `User local time: ${new Date()}`);
+         });
+        </script>  
+    </body>
+</html> 
