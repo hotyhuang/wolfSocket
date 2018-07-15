@@ -1,5 +1,10 @@
 var app = require('express')();
-var server = require('http').Server(app);
+var fs = require('fs')
+var server = require('https').createServer({
+	key: fs.readFileSync('certs/server-key.pem'), 
+    cert: fs.readFileSync('certs/server-crt.pem'), 
+    ca: fs.readFileSync('certs/ca-crt.pem'),
+}, app);
 var io = require('socket.io')(server);
 
 const port = 8002
@@ -13,6 +18,12 @@ io.on('connection', (socket) => {
 
 	socket.on('join', (data) => {
         console.log(data)
+    })
+
+    socket.on('message', (data) => {
+        console.log('Received user message:', data)
+
+        socket.broadcast.emit('client', data)
     })
 
     socket.on('disconnect', socket => {

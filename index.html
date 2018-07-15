@@ -10,13 +10,23 @@
             <input id="chat_input" type="text">
             <input type="submit" value="Send">
         </form>
-         <script src="/jquery/dist/jquery.js"></script>
+        <p id="message" />
         <script src="/socket.io/socket.io.js"></script>
         <script>  
-         var socket = io.connect();
+         var socket = io.connect('ws://localhost:8002');
          socket.on('connect', function(data) {
             socket.emit('join', `User local time: ${new Date()}`);
          });
+
+         socket.on('client', function(data) {
+            document.getElementById("message").innerHTML += data.message
+         })
+
+         document.getElementById("form").addEventListener('submit', function(e) {
+            e.preventDefault()
+            var text = document.getElementById("chat_input").value
+            socket.emit('message', {message: text})
+         })
         </script>  
     </body>
 </html> 
