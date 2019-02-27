@@ -6,27 +6,53 @@
     <body>
         <h1>Yoyo dude!</h1>
         <div id="future"></div>
-        <form id="form" id="chat_form">
-            <input id="chat_input" type="text">
-            <input type="submit" value="Send">
-        </form>
+
+        <button id="createRoom">Create Room</button>
+
+        <br/>
+        <input id="room_input" type="text" />
+        <button id="joinRoom">Join Room</button>
+
+        <input id="roomMessageInput" type="text" />
+        <button id="messageRoom">Message Room</button>
+
+        <br/>
+        <input id="room_leave_input" type="text" />
+        <button id="leaveRoom">Leave Room</button>
+
         <p id="message" />
         <script src="/socket.io/socket.io.js"></script>
         <script>  
-         var socket = io.connect('ws://localhost:8002');
-         socket.on('connect', function(data) {
-            socket.emit('join', `User local time: ${new Date()}`);
-         });
+            var socket = io.connect('ws://localhost:8002');
+            socket.on('connect', function(data) {
+                socket.emit('join', `User local time: ${new Date()}`);
+            });
 
-         socket.on('client', function(data) {
-            document.getElementById("message").innerHTML += data.message
-         })
+            socket.on('client', function(msg) {
+                document.getElementById("message").innerHTML += msg
+            })
 
-         document.getElementById("form").addEventListener('submit', function(e) {
-            e.preventDefault()
-            var text = document.getElementById("chat_input").value
-            socket.emit('message', {message: text})
-         })
+            // rooms
+            document.getElementById('createRoom').addEventListener('click', function(e) {
+                e.preventDefault()
+                socket.emit('createRoom')
+            })
+            document.getElementById('joinRoom').addEventListener('click', function(e) {
+                e.preventDefault()
+                var roomId = document.getElementById('room_input').value
+                socket.emit('joinRoom', roomId)
+            })
+            document.getElementById('messageRoom').addEventListener('click', function(e) {
+                e.preventDefault()
+                var text = document.getElementById('roomMessageInput').value
+                socket.emit('messageRoom', text)
+            })
+
+            document.getElementById('leaveRoom').addEventListener('click', function(e) {
+                e.preventDefault()
+                var roomId = document.getElementById('room_leave_input').value
+                socket.emit('leaveRoom', roomId)
+            })
         </script>  
     </body>
 </html> 
